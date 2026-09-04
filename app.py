@@ -22,7 +22,8 @@ st.divider()
 # HUGGING FACE CLIENT
 # -----------------------------
 client = InferenceClient(
-    api_key=st.secrets["HF_TOKEN"]
+    api_key=st.secrets["HF_TOKEN"],
+    provider="featherless-ai"
 )
 
 MODEL = "Qwen/Qwen2.5-VL-3B-Instruct"
