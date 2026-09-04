@@ -83,28 +83,27 @@ if uploaded_file is not None:
 
                     image_bytes = uploaded_file.getvalue()
 
-                    messages = [
-                        {
-                            "role": "user",
-                            "content": [
-                                {
-                                    "type": "text",
-                                    "text": question
-                                },
-                                {
-                                    "type": "image_url",
-                                    "image_url": {
-                                        "url": (
-                                            "data:image/jpeg;base64,"
-                                            + __import__("base64")
-                                            .b64encode(image_bytes)
-                                            .decode()
-                                        )
-                                    }
-                                }
-                            ]
-                        }
-                    ]
+                    import base64
+
+image_base64 = base64.b64encode(image_bytes).decode("utf-8")
+
+messages = [
+    {
+        "role": "user",
+        "content": [
+            {
+                "type": "image_url",
+                "image_url": {
+                    "url": f"data:image/jpeg;base64,{image_base64}"
+                }
+            },
+            {
+                "type": "text",
+                "text": question
+            }
+        ]
+    }
+]
 
                     response = client.chat.completions.create(
                         model=MODEL,
